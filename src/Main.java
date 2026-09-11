@@ -63,6 +63,10 @@ class Main {
             case "ex":
                 exit(subcommand);
                 break;
+            case "calculate":
+            case "calc":
+                Calc.checkCalc(subcommand, value);
+                break;
             default:
                 System.out.println("Sorry, but I don't know the command " + command);
                 break;
