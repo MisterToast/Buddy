@@ -4,13 +4,21 @@ class Main {
 
     public static Scanner scanner = new Scanner(System.in);
     public static boolean userIsLoggedIn = false;
+    public static boolean directlogin = false;
 
     public static void main(String[] args) {
         // Greeting
         System.out.println("Hey, Im Buddy your small hand in the console. You need to log in before I am allowed to help you!");
-        login();
+        if (!directlogin) {
+            login();
+        }
+        else {
+            System.out.println("I've logged you in directly...");
+        }
+
 
         // While loop as long as the User is logged in
+        mainloop:
         while (userIsLoggedIn) {
 
             // General input
@@ -19,28 +27,6 @@ class Main {
 
             // Run the void to check whether the command is correct
             checkCommand(input);
-        }
-    }
-
-    private static void login() {
-        while (!userIsLoggedIn) {
-            // Asks for the username
-            System.out.print("Username: ");
-            String usernameInput = scanner.nextLine();
-
-            // Asks for the password
-            System.out.print("Password: ");
-            String passwordInput = scanner.nextLine();
-
-            // Checks if username und password are correct
-            if (usernameInput.equalsIgnoreCase("admin") && passwordInput.equalsIgnoreCase("password")) {
-                // If username und password are correct -->
-                userIsLoggedIn = true;
-                System.out.println("You have logged in Successfully!");
-                return;
-            }
-            // If username or password wasn't correct -->
-            System.out.println("Your login wasn't successfully. Maybe the username or password wasn't correct?");
         }
     }
 
@@ -67,9 +53,37 @@ class Main {
             case "calc":
                 Calc.checkCalc(subcommand, value);
                 break;
+            case "get":
+                Get.checkGet(subcommand, value);
+                break;
+            case "benchmark":
+                Benchmark.checkBenchmark(subcommand, value);
+                break;
             default:
                 System.out.println("Sorry, but I don't know the command " + command);
                 break;
+        }
+    }
+
+    private static void login() {
+        while (!userIsLoggedIn) {
+            // Asks for the username
+            System.out.print("Username: ");
+            String usernameInput = scanner.nextLine();
+
+            // Asks for the password
+            System.out.print("Password: ");
+            String passwordInput = scanner.nextLine();
+
+            // Checks if username und password are correct
+            if (usernameInput.equalsIgnoreCase("admin") && passwordInput.equalsIgnoreCase("password")) {
+                // If username und password are correct -->
+                userIsLoggedIn = true;
+                System.out.println("You have logged in Successfully!");
+                return;
+            }
+            // If username or password wasn't correct -->
+            System.out.println("Your login wasn't successfully. Maybe the username or password wasn't correct?");
         }
     }
 
@@ -99,11 +113,22 @@ class Main {
     }
 
     private static void help() {
-        System.out.println("Command | Subcommand | Value | Explanation");
-        System.out.println("--------|------------|-------|------------");
-        System.out.println("logout  | (-y)       |       | Log out of your account");
-        System.out.println("help    |            |       | Show this help table");
-        System.out.println("exit    | (-y)       |       | Exit and terminate the application");
+        System.out.println("Command   | Subcommand | Value                | Explanation");
+        System.out.println("----------|------------|----------------------|------------");
+        System.out.println("logout    | (-y)       |                      | Log out of your account");
+        System.out.println("help      |            |                      | Show this help table");
+        System.out.println("exit      | (-y)       |                      | Exit and terminate the application");
+        System.out.println("----------|------------|----------------------|------------");
+        System.out.println("get       | date       |                      | Get the local time and date");
+        System.out.println("          | ip         |                      | Get all relevant IP-Addresses");
+        System.out.println("----------|------------|----------------------|------------");
+        System.out.println("calculate | gausssumme | 1 - infinite         | Calculate the Gauss summe");
+        System.out.println("calc      | fakultaet  | 1 - 10               | Calculate the Fakultaet");
+        System.out.println("          | potenz     | base exponent        | Calculate the Potenz");
+        System.out.println("          | newsystem  | number base (1 - 9)  | Calculate into a new system");
+        System.out.println("          | fibonacci  | number               | Calculate the Fibonacci number");
+        System.out.println("----------|------------|----------------------|------------");
+        System.out.println("benchmark | cpu        | number to cout up to | Check how long it takes to count");
     }
 
     private static void exit(String subcommand) {
